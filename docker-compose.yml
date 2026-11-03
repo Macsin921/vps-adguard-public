@@ -1,0 +1,16 @@
+services:
+  adguardhome:
+    image: adguard/adguardhome:latest
+    container_name: adguardhome
+    restart: unless-stopped
+    volumes:
+      - ./adguard/work:/opt/adguardhome/work
+      - ./adguard/conf:/opt/adguardhome/conf
+    ports:
+      # DNS: доступен только с самого сервера / из Docker-сети
+      - "127.0.0.1:53:53/tcp"
+      - "127.0.0.1:53:53/udp"
+      # Веб-панель: открывать только через SSH-туннель
+      - "127.0.0.1:3000:3000/tcp"
+    environment:
+      - TZ=${TZ:-Europe/Helsinki}
